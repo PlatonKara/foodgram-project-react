@@ -3,7 +3,7 @@ services:
   db:
     image: postgres:13.4
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - postgres_db:/var/lib/postgresql/data/
     env_file:
       - ./.env
 
@@ -41,6 +41,6 @@ services:
 
 
 volumes:
-  postgre_db:
+  postgres_db:
   static_value:
   media_value:
