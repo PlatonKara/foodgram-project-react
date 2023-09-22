@@ -7,7 +7,6 @@ def validate_slug(slug):
     """Валидатор slug тегов."""
 
     pattern = re.compile(r'^[-a-zA-Z0-9_]+')
-
     if pattern.fullmatch(slug) is None:
         match = re.split(pattern, slug)
         symbol = ''.join(match)

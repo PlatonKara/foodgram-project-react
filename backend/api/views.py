@@ -69,9 +69,10 @@ class CustomUserViewSet(UserViewSet):
 
         if request.method == 'POST':
             if user == author:
-                return Response({'errors': 'на самого себя нельзя подписаться'},
-                                status=status.HTTP_400_BAD_REQUEST
-                                )
+                return Response(
+                    {'errors': 'на самого себя нельзя подписаться'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
             if obj.exists():
                 return Response(
                     {'errors': f'Вы уже подписаны на {author.username}'},
