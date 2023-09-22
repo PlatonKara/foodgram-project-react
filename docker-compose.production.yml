@@ -24,10 +24,10 @@ services:
       - static_value:/frontend_static
 
   nginx:
-    image: nginx:1.19.3
+    image: platonkara/foodgram_nginx
     volumes:
-      - static_value:/staticfiles/
-      - media_value:/media/recipes/images/
+      - static_value:/var/html/static/
+      - media_value:/var/html/media/
     ports:
       - 8000:80
     depends_on:

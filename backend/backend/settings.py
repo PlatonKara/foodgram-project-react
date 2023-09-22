@@ -10,7 +10,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', default='default-value')
 
 DEBUG = os.getenv('DEBUG', default=False)
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'backend', '158.160.67.202', 'platonkara.site']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(', ')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
