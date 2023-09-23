@@ -11,7 +11,7 @@ services:
     restart: always
     env_file: .env
     volumes:
-      - static_value:/static/
+      - static_value:/backend_static/
       - media_value:/media/
     depends_on:
     - db
@@ -19,14 +19,14 @@ services:
   frontend:
     image: platonkara/foodgram_frontend:latest
     env_file: .env
-    command: cp -r /app/build/. /static/
+    command: cp -r /app/build/. /frontend_static/
     volumes:
-      - static_value:/static
+      - static_value:/frontend_static
 
   nginx:
     image: platonkara/foodgram_nginx
     volumes:
-      - static_value:/static/
+      - static_value:/staticfiles/
       - media_value:/media/
     ports:
       - 8000:80
