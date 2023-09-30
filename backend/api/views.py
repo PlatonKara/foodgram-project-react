@@ -15,8 +15,8 @@ from api.permissions import IsAdminAuthorOrReadOnly
 from api.serializers import (CartSerializer, FavoriteSerializer,
                              IngredientsSerializer, RecipesGetSerializer,
                              RecipesPostSerializer, ShortSerializer,
-                             SubscribeGetSerializer, SubscribePostSerializer,
-                             TagsSerializer, UserSerializer)
+                             SubscribeGetSerializer, TagsSerializer,
+                             UserSerializer)
 from api.utils import download_pdf
 from recipes.models import (Cart, Favorite, IngredientInRecipe, Ingredients,
                             Recipes, Tags)
@@ -77,7 +77,7 @@ class UserViewSet(DjoserUserViewSet):
         if request.method == 'POST':
             if obj.exists():
                 return Response(
-                    {'errors': f'Вы уже подписаны на этого пользователя'},
+                    {'errors': 'Вы уже подписаны на этого пользователя'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
@@ -102,7 +102,7 @@ class UserViewSet(DjoserUserViewSet):
             obj.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response(
-            {'errors': f'Вы уже отписались от этого пользователя'},
+            {'errors': 'Вы уже отписались от этого пользователя'},
             status=status.HTTP_400_BAD_REQUEST
         )
 
