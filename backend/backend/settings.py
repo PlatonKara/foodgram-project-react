@@ -10,7 +10,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', default='default-value')
 
 DEBUG = os.getenv('DEBUG', default=False)
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(', ')
+ALLOWED_HOSTS = ['localhost', 'backend', '127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -28,7 +28,6 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'recipes.apps.RecipesConfig',
     'colorfield',
-    'isort',
 ]
 
 MIDDLEWARE = [
@@ -62,8 +61,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-if not DEBUG:
-    DATABASES = {
+DATABASES = {
         'default': {
             'ENGINE': os.getenv('DB_ENGINE', default='django.db.backends.postgresql'),
             'NAME': os.getenv('DB_NAME', default='postgres'),
@@ -73,13 +71,7 @@ if not DEBUG:
             'PORT': os.getenv('DB_PORT', default='5432')
         }
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
-    }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -98,7 +90,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru-RU'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -143,35 +135,10 @@ DJOSER = {
     'LOGIN_FIELD': 'email',
     'HIDE_USERS': False,
     'PERMISSIONS': {
-        'user_create': ['rest_framework.permissions.AllowAny'],
-        'user': ['rest_framework.permissions.IsAuthenticated'],
+        'user': ['djoser.permissions.CurrentUserOrAdminOrReadOnly'],
         'user_list': ['rest_framework.permissions.IsAuthenticatedOrReadOnly'],
-        'set_password': ['rest_framework.permissions.IsAuthenticatedOrReadOnly'],
-        'token_create': ['rest_framework.permissions.AllowAny'],
-        'token_destroy': ['djoser.permissions.CurrentUserOrAdmin'],
-        'activation': ['rest_framework.permissions.IsAdminUser'],
-        'password_reset': ['rest_framework.permissions.IsAdminUser'],
-        'password_reset_confirm': ['rest_framework.permissions.IsAdminUser'],
-        'username_reset': ['rest_framework.permissions.IsAdminUser'],
-        'username_reset_confirm': ['rest_framework.permissions.IsAdminUser'],
-        'set_username': ['rest_framework.permissions.IsAdminUser'],
-        'user_delete': ['rest_framework.permissions.IsAdminUser'],
     },
     'SERIALIZERS': {
-        'user_create': 'api.serializers.CustomUserCreateSerializer',
-        'user': 'api.serializers.CustomUserSerializer',
-        'set_password': 'djoser.serializers.SetPasswordSerializer',
-        'token': 'djoser.serializers.TokenSerializer',
-        'token_create': 'djoser.serializers.TokenCreateSerializer',
+        'user': 'api.serializers.UserSerializer',
     },
 }
-
-EMAIL: int = 254
-USERNAME: int = 150
-FIRST_NAME: int = 150
-LAST_NAME: int = 150
-PASSWORD: int = 150
-TAG_SLUG_NAME: int = 200
-TAG_COLOR: int = 7
-INGREDIENTS: int = 200
-RECIPE_NAME: int = 200

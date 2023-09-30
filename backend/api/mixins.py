@@ -9,11 +9,12 @@ def check_request_return_boolean(self, obj, model):
     """Проверяем факт запроса"""
 
     request = self.context.get('request')
-    if not request or request.user.is_anonymous:
-        return False
+    user_id = (request.user.id if request and
+               request.user.is_authenticated else None)
+    
     if model == Subscribe:
-        return model.objects.filter(user=request.user, author=obj.id).exists()
-    return model.objects.filter(recipe=obj, user=request.user).exists()
+        return model.objects.filter(user_id=user_id, author=obj.id).exists()
+    return model.objects.filter(recipe=obj, user_id=user_id).exists()
 
 
 class FavoriteCart:

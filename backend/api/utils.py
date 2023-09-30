@@ -1,6 +1,6 @@
 from io import BytesIO
 
-from django.http import HttpResponse
+from django.http import FileResponse
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
@@ -8,7 +8,7 @@ from reportlab.pdfgen import canvas
 
 def download_pdf(request, ingredients):
     """Метод для отправки списка покупок в pdf"""
-    response = HttpResponse(content_type='application/pdf')
+    response = FileResponse(content_type='application/pdf')
     response['Content-Disposition'] = (
         'inline; filename="shopping_list.pdf"'
     )

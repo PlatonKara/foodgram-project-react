@@ -38,7 +38,7 @@ class Api {
         method: 'POST',
         headers: this._headers,
         body: JSON.stringify({
-          email, password
+          username: email, password
         })
       }
     ).then(this.checkResponse)
