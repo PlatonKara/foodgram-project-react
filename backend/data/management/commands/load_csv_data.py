@@ -2,7 +2,6 @@ import csv
 import datetime
 
 from django.core.management import BaseCommand
-
 from recipes.models import Ingredients, Tags
 
 csv_files = (

@@ -12,11 +12,11 @@ from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from api.filters import IngredientsFilter, RecipesFilterSet
 from api.mixins import FavoriteCart
 from api.permissions import IsAdminAuthorOrReadOnly
-from api.serializers import (UserSerializer, IngredientsSerializer,
-                             RecipesPostSerializer, RecipesGetSerializer,
-                             ShortSerializer, SubscribePostSerializer,
-                             SubscribeGetSerializer, TagsSerializer,
-                             FavoriteSerializer, CartSerializer)
+from api.serializers import (CartSerializer, FavoriteSerializer,
+                             IngredientsSerializer, RecipesGetSerializer,
+                             RecipesPostSerializer, ShortSerializer,
+                             SubscribeGetSerializer, SubscribePostSerializer,
+                             TagsSerializer, UserSerializer)
 from api.utils import download_pdf
 from recipes.models import (Cart, Favorite, IngredientInRecipe, Ingredients,
                             Recipes, Tags)
@@ -80,7 +80,7 @@ class UserViewSet(DjoserUserViewSet):
                     {'errors': f'Вы уже подписаны на этого пользователя'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
-            
+
             data = {
                 'user': user.id,
                 'author': id
@@ -92,10 +92,10 @@ class UserViewSet(DjoserUserViewSet):
                                 status=status.HTTP_201_CREATED)
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
-        
+
         if request.method == 'DELETE':
             return self.delete_subscription(request, obj)
-        
+
     def delete_subscription(self, request, obj):
         """Метод для удаления подписки."""
         if obj.exists():
@@ -113,7 +113,7 @@ class IngredientsViewSet(ReadOnlyModelViewSet):
     serializer_class = IngredientsSerializer
     queryset = Ingredients.objects.all()
     pagination_class = None
-    filter_backends = [IngredientsFilter,]
+    filter_backends = [IngredientsFilter, ]
     search_fields = ('^name',)
 
 
@@ -130,7 +130,7 @@ class RecipesViewSet(ModelViewSet, FavoriteCart):
 
     queryset = Recipes.objects.select_related('author').prefetch_related(
         'tags', 'ingredients'
-        )
+    )
     pagination_class = PageNumberPagination
     permission_classes = [IsAdminAuthorOrReadOnly]
     filterset_class = RecipesFilterSet
@@ -192,7 +192,7 @@ class RecipesViewSet(ModelViewSet, FavoriteCart):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-    
+
     @staticmethod
     def delete_entry(model, pk, request):
         obj = model.objects.filter(user=request.user, recipe=pk)
