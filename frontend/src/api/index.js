@@ -31,7 +31,7 @@ class Api {
     })
   }
 
-  signin ({ email, password }) {
+  signin({ email, password }) {
     return fetch(
       '/api/auth/token/login/',
       {
@@ -41,7 +41,31 @@ class Api {
           username: email, password
         })
       }
-    ).then(this.checkResponse)
+    ).then(res => {
+      if (res.status === 200) {
+        return res.json().then(data => {
+          localStorage.setItem('token', data.token);
+          return data;
+        });
+      } else {
+        return this.checkResponse(res);
+      }
+    });
+  }
+
+  checkResponse(res) {
+    return new Promise((resolve, reject) => {
+      if (res.status === 204) {
+        return resolve(res);
+      }
+      res.json().then(data => {
+        if (res.status < 400) {
+          resolve(data);
+        } else {
+          reject(new Error(data.detail || "Unknown error"));
+        }
+      });
+    });
   }
 
   signout () {

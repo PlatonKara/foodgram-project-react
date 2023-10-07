@@ -45,8 +45,9 @@ class RecipesAdmin(admin.ModelAdmin):
 
     @admin.display(description='Ингредиенты')
     def get_ingredients(self, obj):
-        return list(Recipes.objects.filter(id=obj.id).values_list(
-            'ingredients__name', flat=True).order_by('-ingredients__name'))
+        return list(
+            obj.ingredients.values_list('name', flat=True).order_by('-name')
+        )
 
     @admin.display(description='Добавили в избранное')
     def get_favorites_count(self, obj):

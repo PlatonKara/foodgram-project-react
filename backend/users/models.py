@@ -1,45 +1,25 @@
-from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
+
+from api.const import EMAIL_LENGTH, NAMES_PASSWORD_LENGTH
 
 from .validators import ValidateUsername
 
 
-class UserManager(BaseUserManager):
-
-    def create_user(self, email, password=None, **extra_fields):
-        if not email:
-            raise ValueError('The Email field must be set')
-        email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
-        if password:
-            user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_superuser(self, email, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-
-        if extra_fields.get('is_staff') is not True:
-            raise ValueError('Superuser must have is_staff=True.')
-        if extra_fields.get('is_superuser') is not True:
-            raise ValueError('Superuser must have is_superuser=True.')
-
-        return self.create_user(email, password, **extra_fields)
-
-
 class User(AbstractUser, ValidateUsername):
-    email = models.EmailField('Почта', max_length=254, unique=True)
-    username = models.CharField('Username', max_length=150, unique=True)
-    first_name = models.CharField('Имя', max_length=150)
-    last_name = models.CharField('Фамилия', max_length=150)
+    email = models.EmailField('Почта', max_length=EMAIL_LENGTH, unique=True)
+    username = models.CharField('Username', max_length=NAMES_PASSWORD_LENGTH,
+                                unique=True)
+    first_name = models.CharField('Имя', max_length=NAMES_PASSWORD_LENGTH)
+    last_name = models.CharField('Фамилия', max_length=NAMES_PASSWORD_LENGTH)
+    password = models.CharField('Пароль', max_length=NAMES_PASSWORD_LENGTH)
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ('first_name', 'last_name', 'username')
+    REQUIRED_FIELDS = ('first_name', 'last_name', 'username', 'password',)
 
     class Meta:
-        ordering = ['username']
+        ordering = ('username',)
         verbose_name = 'пользователь'
         verbose_name_plural = 'пользователи'
 

@@ -22,6 +22,10 @@ class RecipesFilterSet(FilterSet):
     is_favorited = NumberFilter(method='filter_is_favorited')
     is_in_shopping_cart = NumberFilter(method='filter_shopping_cart')
 
+    class Meta:
+        model = Recipes
+        fields = ('tags', 'author', 'is_favorited', 'is_in_shopping_cart')
+
     def filter_is_favorited(self, queryset, is_favorited, number):
         """Фильтрация по избранному"""
         if number:
@@ -33,7 +37,3 @@ class RecipesFilterSet(FilterSet):
         if number:
             return queryset.filter(cart__user=self.request.user)
         return queryset
-
-    class Meta:
-        model = Recipes
-        fields = ('tags', 'author', 'is_favorited', 'is_in_shopping_cart')

@@ -1,9 +1,15 @@
-from rest_framework import permissions
+from rest_framework.permissions import (SAFE_METHODS,
+                                        BasePermission)
 
 
-class IsAdminAuthorOrReadOnly(permissions.BasePermission):
+class IsAdminAuthorOrReadOnly(BasePermission):
     """Проверка авторизации и доступа к объектам"""
 
     def has_object_permission(self, request, view, obj):
-        return (request.method in permissions.SAFE_METHODS
+        return (request.method in SAFE_METHODS
                 or obj.author == request.user)
+
+
+class IsOwnerOrReadOnly(BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return request.method in SAFE_METHODS or obj.author == request.user
