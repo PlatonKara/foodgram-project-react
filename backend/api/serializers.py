@@ -3,7 +3,7 @@ from django.db import transaction
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 
-from api.const import MAX_AMOUNT, MAX_COOKING_TIME, MIN_AMOUNT, RECIPE_LENGTH
+from api.const import MAX_AMOUNT, MAX_COOKING_TIME, MIN_AMOUNT
 from api.mixins import check_request_return_boolean
 from recipes.models import (Cart, Favorite, IngredientInRecipe, Ingredients,
                             Recipes, Tags)

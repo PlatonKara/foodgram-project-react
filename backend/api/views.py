@@ -13,9 +13,8 @@ from api.filters import IngredientsFilter, RecipesFilterSet
 from api.permissions import IsOwnerOrReadOnly
 from api.serializers import (CartSerializer, FavoriteSerializer,
                              IngredientsSerializer, RecipesGetSerializer,
-                             RecipesPostSerializer, ShortSerializer,
-                             SubscribeGetSerializer, TagsSerializer,
-                             UserSerializer)
+                             RecipesPostSerializer, SubscribeGetSerializer,
+                             TagsSerializer, UserSerializer)
 from api.utils import download_pdf
 from recipes.models import (Cart, Favorite, IngredientInRecipe, Ingredients,
                             Recipes, Tags)
