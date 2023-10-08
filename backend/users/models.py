@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractUser, UserManager
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 from api.const import EMAIL_LENGTH, NAMES_PASSWORD_LENGTH
@@ -25,7 +25,6 @@ class User(AbstractUser, ValidateUsername):
                                  max_length=NAMES_PASSWORD_LENGTH)
     password = models.CharField(verbose_name='Пароль',
                                 max_length=NAMES_PASSWORD_LENGTH)
-    objects = UserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ('first_name', 'last_name', 'username', 'password',)

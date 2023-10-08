@@ -1,4 +1,5 @@
 from django.core import validators
+from django.contrib.auth.hashers import make_password
 from django.db import transaction
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
@@ -23,7 +24,13 @@ class UserSerializer(serializers.ModelSerializer):
         )
 
     def get_is_subscribed(self, obj):
-        return check_request_return_boolean(self, obj, Subscribe)
+        return check_request_return_boolean(obj, self.context, Subscribe)
+
+    def create(self, validated_data):
+        validated_data['password'] = (
+            make_password(validated_data.pop('password'))
+        )
+        return super().create(validated_data)
 
 
 class ShortSerializer(serializers.ModelSerializer):
