@@ -7,12 +7,24 @@ from .validators import ValidateUsername
 
 
 class User(AbstractUser, ValidateUsername):
-    email = models.EmailField('Почта', max_length=EMAIL_LENGTH, unique=True)
-    username = models.CharField('Username', max_length=NAMES_PASSWORD_LENGTH,
-                                unique=True)
-    first_name = models.CharField('Имя', max_length=NAMES_PASSWORD_LENGTH)
-    last_name = models.CharField('Фамилия', max_length=NAMES_PASSWORD_LENGTH)
-    password = models.CharField('Пароль', max_length=NAMES_PASSWORD_LENGTH)
+    """Кастомная модель User для приложения."""
+
+    email = models.EmailField(
+        verbose_name='Почта',
+        max_length=EMAIL_LENGTH,
+        unique=True
+    )
+    username = models.CharField(
+        verbose_name='Username',
+        max_length=NAMES_PASSWORD_LENGTH,
+        unique=True
+    )
+    first_name = models.CharField(verbose_name='Имя',
+                                  max_length=NAMES_PASSWORD_LENGTH)
+    last_name = models.CharField(verbose_name='Фамилия',
+                                 max_length=NAMES_PASSWORD_LENGTH)
+    password = models.CharField(verbose_name='Пароль',
+                                max_length=NAMES_PASSWORD_LENGTH)
     objects = UserManager()
 
     USERNAME_FIELD = 'email'

@@ -38,7 +38,7 @@ class Command(BaseCommand):
                 print(f'{len(to_create)}'
                       f'записей загружено в таблицу {model.__name__}')
 
-            print(f'агрузка данных завершена за'
+            print(f'Загрузка данных завершена за'
                   f'{(datetime.datetime.now() - start_time).total_seconds()}'
                   f'сек.')
 

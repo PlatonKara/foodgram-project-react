@@ -107,8 +107,6 @@ class RecipesViewSet(ModelViewSet):
     pagination_class = PageNumberPagination
     permission_classes = [IsOwnerOrReadOnly]
     filterset_class = RecipesFilterSet
-    add_serializer = ShortSerializer
-    add_model = Recipes
 
     def get_permissions(self):
         if self.request.method == 'POST':
